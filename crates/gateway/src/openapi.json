@@ -1,0 +1,17 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "OpenWA Rust Gateway", "version": "0.1.0" },
+  "paths": {
+    "/api/health": { "get": { "summary": "Health check" } },
+    "/api/sessions": { "get": { "summary": "List sessions" }, "post": { "summary": "Create session" } },
+    "/api/sessions/{session_id}/start": { "post": { "summary": "Start session" } },
+    "/api/sessions/{session_id}/messages/send-text": { "post": { "summary": "Send text message" } },
+    "/api/sessions/{session_id}/messages/send-media": { "post": { "summary": "Send media" } },
+    "/api/sessions/{session_id}/webhooks": { "get": { "summary": "List webhooks" }, "post": { "summary": "Create webhook" } },
+    "/api/keys": { "get": { "summary": "List API keys" }, "post": { "summary": "Create API key" } },
+    "/api/stats": { "get": { "summary": "Statistics" } },
+    "/api/search": { "get": { "summary": "Search messages" } },
+    "/api/audit": { "get": { "summary": "Audit log" } },
+    "/mcp": { "post": { "summary": "MCP endpoint" } }
+  }
+}

@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  rust:
+    name: rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt -p openwa-gateway -- --check
+      - run: cargo clippy -p openwa-gateway --all-targets -- -D warnings
+      - run: cargo build -p openwa-gateway
+      - run: cargo test -p openwa-gateway
+
+  node:
+    name: node
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install sidecar dependencies
+        run: |
+          if [ -f sidecar/package-lock.json ]; then
+            npm ci --prefix sidecar
+          else
+            npm install --prefix sidecar
+          fi
+      - name: Syntax check sidecar
+        run: node --check sidecar/index.js
+      - name: Syntax check mock sidecar
+        run: node --check tests/mock-sidecar/index.js
+
+  smoke:
+    name: smoke
+    runs-on: ubuntu-latest
+    needs: [rust, node]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: Swatinem/rust-cache@v2
+      - name: Run end-to-end smoke test
+        run: pwsh -NoProfile -File scripts/smoke-test.ps1

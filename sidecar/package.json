@@ -1,0 +1,20 @@
+{
+  "name": "openwa-sidecar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Node.js sidecar for openwa-rs: JSON-RPC 2.0 over stdio, backed by Baileys. See docs/SIDECAR_PROTOCOL.md.",
+  "license": "MIT",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "selftest": "node dev-selftest.js"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "pino": "^10.4.0"
+  }
+}

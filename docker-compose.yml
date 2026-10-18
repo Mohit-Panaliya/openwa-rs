@@ -1,0 +1,27 @@
+services:
+  openwa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openwa-rs:latest
+    container_name: openwa
+    restart: unless-stopped
+    ports:
+      - "2785:2785"
+    environment:
+      # Leave API_KEY empty to have the gateway generate and persist a key in
+      # /app/data/.api-key on first boot.
+      API_KEY: "${API_KEY:-}"
+      PORT: "2785"
+      HOST: "0.0.0.0"
+      SIDECAR_DIR: "/app/sidecar"
+      DATA_DIR: "/app/data"
+      DASHBOARD_DIR: "/app/dashboard"
+      RUST_LOG: "info"
+      LOG_LEVEL: "silent"
+    volumes:
+      # API key, SQLite database, media blobs and per-session engine auth state.
+      - openwa-data:/app/data
+
+volumes:
+  openwa-data:

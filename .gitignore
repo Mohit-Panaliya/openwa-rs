@@ -1,0 +1,19 @@
+# rust
+target/
+
+# node
+node_modules/
+
+# runtime data (api key, per-session auth state, media scratch)
+data/
+sidecar/data/
+
+# sqlite artifacts (in case DB_PATH points outside data/)
+*.db
+*.db-wal
+*.db-shm
+
+# logs and local config
+*.log
+.env
+*.tmp

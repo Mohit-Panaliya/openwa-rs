@@ -1,0 +1,35 @@
+[package]
+name = "openwa-gateway"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "OpenWA-compatible WhatsApp API gateway — Rust front, Node/Baileys sidecar engine"
+
+[dependencies]
+axum = "0.8"
+tokio = { version = "1", features = ["full"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1"
+thiserror = "2"
+rand = "0.9"
+reqwest = { version = "0.12", default-features = false, features = ["json", "native-tls"] }
+hmac = "0.12"
+sha2 = "0.10"
+hex = "0.4"
+base64 = "0.22"
+rusqlite = { version = "0.39", features = ["bundled"] }
+tower-http = { version = "0.6", features = ["fs"] }
+qrcode = { version = "0.14", default-features = false, features = ["svg"] }
+
+[features]
+default = []
+# In-process Rust engine (Phase 2). Enabled when crates/engine is ready.
+embedded-engine = ["dep:openwa-engine"]
+
+[dependencies.openwa-engine]
+path = "../engine"
+optional = true

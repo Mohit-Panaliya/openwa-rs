@@ -1,0 +1,22 @@
+[package]
+name = "openwa-engine"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "In-process Rust WhatsApp engine implementing docs/SIDECAR_PROTOCOL.md method semantics"
+
+[dependencies]
+# whatsapp-rust 0.7 (pure Rust, stable toolchain). `sqlite-storage` is
+# deliberately NOT enabled: Cargo forbids two versions of a crate that carries
+# `links = "sqlite3"`, and the gateway pins its own libsqlite3-sys, so the
+# engine persists through its own file-backed `Backend` (see src/store.rs).
+# `simd` is off as well because it gates nightly's `portable_simd`.
+whatsapp-rust = { version = "0.7", default-features = false, features = ["tokio-transport", "tokio-runtime", "tokio-native", "ureq-client"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+base64 = "0.22"
+uuid = { version = "1", features = ["v4"] }
+hex = "0.4"
+ureq = "3"

@@ -1,0 +1,10 @@
+target/
+node_modules/
+sidecar/data/
+data/
+**/data/
+.git/
+.github/
+*.log
+*.tmp
+.env
